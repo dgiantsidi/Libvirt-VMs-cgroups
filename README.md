@@ -2,7 +2,7 @@
 
 ## Step 1: Starting a VM using virt-manager
 
-- We create a VM using virt-manager interface. Then, creates a cgroup for this VM. In general libvirt creates a single unique cgroup for each created/started VM under the mount point /sys/fs/cgroup/$CONTROLLER-NAME/machine.slice/. The cgroup created is defined in machine-qemu/{driver}\x2d{domain_id}\x2d{vm name}.scope
+- We create a VM using virt-manager interface. Then, a cgroup is created for this VM. In general, libvirt creates a single unique cgroup for each created/started VM under the mount point /sys/fs/cgroup/$CONTROLLER-NAME/machine.slice/. The cgroup created is defined in machine-qemu/{driver}\x2d{domain_id}\x2d{vm name}.scope
   - example in guest digian-vm: 
   ```
   	  +- machine-qemu\x2d330\x2ddigian\x2dvm.scope
@@ -14,6 +14,11 @@
 	        |   +- vcpu3
 
   ```
+  -References: https://libvirt.org/cgroups.html#resourceAPIs
+  ```
+Non-systemd cgroups layout 
+On hosts which do not use systemd, each consumer has a corresponding cgroup named $VMNAME.libvirt-{qemu,lxc}. Each consumer is associated with exactly one partition, which also have a corresponding cgroup usually named $PARTNAME.partition. The exceptions to this naming rule are the three top level default partitions, named /system (for system services), /user (for user login sessions) and /machine (for virtual machines and containers). By default every consumer will of course be associated with the /machine partition.
+```  
   
 ## Step 2: Exploring the cgroup
   
@@ -40,7 +45,7 @@
   (none)
   ```
  - in each of the cgroups (vcp0, vcp1, emulator) we can retrieve cpuset.cpus in order to see which cpus are dedicated to these tasks
- - editing such files with the command echo $mask > cpuset.cpus we can also change cpu affinity
+ - editing such files with the command `echo $mask > cpuset.cpus` we can also change cpu affinity
   
   ## Step 3: cgroups VS vcpupin/emulatorpin (virt-manager commands)
   
@@ -113,7 +118,7 @@
 	CPU time:       43.9s
 	CPU Affinity:   ---y
   ```
- - .. and cgroups
+ - .. and cgroups are .. ?
   ```
   cat vcpu0/cpuset.cpus 
   1
