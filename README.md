@@ -15,10 +15,12 @@
 
   ```
   -References: https://libvirt.org/cgroups.html#resourceAPIs
-  ```
-Non-systemd cgroups layout 
-On hosts which do not use systemd, each consumer has a corresponding cgroup named $VMNAME.libvirt-{qemu,lxc}. Each consumer is associated with exactly one partition, which also have a corresponding cgroup usually named $PARTNAME.partition. The exceptions to this naming rule are the three top level default partitions, named /system (for system services), /user (for user login sessions) and /machine (for virtual machines and containers). By default every consumer will of course be associated with the /machine partition.
-```  
+ 
+(Non-systemd cgroups layout    
+	On hosts which do not use systemd, each consumer has a corresponding cgroup named $VMNAME.libvirt-{qemu,lxc}. Each consumer is  	associated with exactly one partition, which also have a corresponding cgroup usually named $PARTNAME.partition. The exceptions 	to this naming rule are the three top level default partitions, named /system (for system services), /user (for user login 	  	  sessions) and /machine (for virtual machines and containers). By default every consumer will of course be associated with the 	/machine partition.)
+(Systemd slice naming    
+The systemd convention for slice naming is that a slice should include the name of all of its parents prepended on its own name. So for a libvirt partition /machine/engineering/testing, the slice name will be machine-engineering-testing.slice. Again the slice names map directly to the cgroup directory names. Systemd creates three top level slices by default, system.slice user.slice and machine.slice. All virtual machines or containers created by libvirt will be associated with machine.slice by default.)
+  
   
 ## Step 2: Exploring the cgroup
   
