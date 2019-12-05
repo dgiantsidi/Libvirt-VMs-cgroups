@@ -1,4 +1,4 @@
-# cgroups-and-libvirt-VMs
+# Cgroups: Libvirt VMs
 
 ## Step 1: Starting a VM using virt-manager
 
